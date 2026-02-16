@@ -3,7 +3,7 @@ const userSeeds = [
 ];
 
 const accountSeeds = [
-    { user_name: 'admin', name: 'Wallet', balance: 1000.00 }
+    { name: 'Wallet', balance: 1000.00 }
 ];
 
 export const runSeeds = async (db) => {

@@ -25,6 +25,14 @@ router.post('/register', asyncHandler(async (req, res) => {
     res.status(201).json(toUserResponseDTO(newUser));
 }));
 
+//todo
+router.patch('/id', asyncHandler(async (req, res) => {
+    const id = Number(req.params.id);
+    const { user_name, password } = req.body;
+
+    const updatedUser = await User.update
+}));
+
 router.delete('/:id', asyncHandler(async (req, res) => {
     const user = await User.delete(Number(req.params.id));
 

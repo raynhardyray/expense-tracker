@@ -1,5 +1,6 @@
 import { db } from "#db/database.js";
 import { BaseModel } from "#models/BaseModel.js";
+import bcrypt from 'bcrypt';
 
 class UserModel extends BaseModel {
     constructor() {
@@ -8,8 +9,11 @@ class UserModel extends BaseModel {
 
     async create(user_name, password) {
         try {
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            
             const query = `INSERT INTO users (user_name, password) VALUES ($1, $2) RETURNING id, user_name, created_at`;
-            const res = await db.query(query, [user_name, password]);
+            const res = await db.query(query, [user_name, hashedPassword]);
 
             return res.rows[0];
         } catch (err) {
@@ -20,6 +24,11 @@ class UserModel extends BaseModel {
             }
             throw err;
         }
+
+    };
+
+    // todo
+    async patch(user_id, field) {
 
     };
 };

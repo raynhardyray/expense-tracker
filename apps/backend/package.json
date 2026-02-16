@@ -7,18 +7,19 @@
   "type": "module",
   "main": "src/server.js",
   "imports": {
-      "#/*": "./*",
-      "#db/*": "./src/db/*",
-      "#models/*": "./src/models/*",
-      "#dto/*": "./src/dto/*",
-      "#routes/*": "./src/routes/*",
-      "#middleware/*": "./src/middleware/*"
+    "#/*": "./*",
+    "#db/*": "./src/db/*",
+    "#models/*": "./src/models/*",
+    "#dto/*": "./src/dto/*",
+    "#routes/*": "./src/routes/*",
+    "#middleware/*": "./src/middleware/*"
   },
   "scripts": {
     "dev": "node --watch --env-file=.env src/server.js",
     "db:reset": "node --env-file=.env src/db/reset.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
     "pg": "^8.18.0"
   }
