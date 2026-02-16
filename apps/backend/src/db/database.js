@@ -1,6 +1,6 @@
 import pg from 'pg';
-import { tables } from './schema.js';
-import { runSeeds } from './seeds.js';
+import {tables} from '#db/schema.js';
+import {runSeeds} from '#db/seeds.js';
 
 const { Pool, Client } = pg;
 
@@ -32,8 +32,8 @@ const checkDatabase = async () => {
         } else {
             console.log('Database already exists.');
         }
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        console.log(err);
     } finally {
         await client.end();
     }
@@ -55,9 +55,9 @@ export const db = {
             await runSeeds(this);
 
             console.log('Database, Schema, and Seeds are ready');
-        } catch (error) {
-            console.error('Initialization failed: ', error);
-            throw error;
+        } catch (err) {
+            console.error('Initialization failed: ', err);
+            throw err;
         };
     }
 };
