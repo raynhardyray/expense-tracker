@@ -1,7 +1,7 @@
 export const toUserResponseDTO = (user) => {
     return {
         id: user.id,
-        username: user.username,
-        createdAt: user.created_at
+        User: user.user_name,
+        Created: new Date(user.created_at).toLocaleString()
     };
 };

@@ -19,8 +19,8 @@ router.get('/:id', asyncHandler(async (req, res) => {
 }));
 
 router.post('/register', asyncHandler(async (req, res) => {
-    const { username, password } = req.body;
-    const newUser = await User.create(username, password);
+    const { user_name, password } = req.body;
+    const newUser = await User.create(user_name, password);
 
     res.status(201).json(toUserResponseDTO(newUser));
 }));
@@ -28,7 +28,11 @@ router.post('/register', asyncHandler(async (req, res) => {
 router.delete('/:id', asyncHandler(async (req, res) => {
     const user = await User.delete(Number(req.params.id));
 
-    res.json(toUserResponseDTO(user));
+    res.status(200).json([{
+        "status": "success",
+        ...toUserResponseDTO(user)
+        }]
+    );
 }));
 
 export default router;

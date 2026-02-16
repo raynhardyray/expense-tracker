@@ -6,15 +6,15 @@ class UserModel extends BaseModel {
         super('users');
     };
 
-    async create(username, password) {
+    async create(user_name, password) {
         try {
-            const query = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username, created_at`;
-            const res = await db.query(query, [username, password]);
+            const query = `INSERT INTO users (user_name, password) VALUES ($1, $2) RETURNING id, user_name, created_at`;
+            const res = await db.query(query, [user_name, password]);
 
             return res.rows[0];
         } catch (err) {
             if (err.code === '23505') {
-                const error = new Error('That username is already taken.');
+                const error = new Error('That user name is already taken.');
                 error.statusCode = 409; 
                 throw error;
             }

@@ -1,9 +1,9 @@
 const CREATE_USERS_TABLE = `
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        username TEXT UNIQUE NOT NULL,
+        user_name TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
     );
 `;
 
@@ -13,7 +13,7 @@ const CREATE_ACCOUNTS_TABLE = `
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         name TEXT NOT NULL,
         balance DECIMAL(12, 2) DEFAULT 0.00,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
     );
 `;
 

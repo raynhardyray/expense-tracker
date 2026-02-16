@@ -39,7 +39,6 @@ export class BaseModel {
         try {
             const query = `DELETE FROM ${this.table} WHERE id = $1 RETURNING *`;
             const res = await db.query(query, [id]);
-            console.log(res);
 
             if (res.rowCount === 0) {
                 const error = new Error(`Record with ID ${id} not found in ${this.table}`);
@@ -47,7 +46,7 @@ export class BaseModel {
                 throw error;
             };
 
-            return true;
+            return res.rows[0];
         } catch (err) {
             console.error(`[Database Error] Error deleting record in ${this.table} by ID:`, err.message);
             throw err;
