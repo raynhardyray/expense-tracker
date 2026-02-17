@@ -6,21 +6,23 @@
   "author": "",
   "type": "module",
   "main": "src/server.js",
-  "imports": {
-    "#/*": "./*",
-    "#db/*": "./src/db/*",
-    "#models/*": "./src/models/*",
-    "#dto/*": "./src/dto/*",
-    "#routes/*": "./src/routes/*",
-    "#middleware/*": "./src/middleware/*"
-  },
   "scripts": {
-    "dev": "node --watch --env-file=.env src/server.js",
-    "db:reset": "node --env-file=.env src/db/reset.js"
+    "dev": "tsx --watch --env-file=.env src/server.ts",
+    "db:reset": "tsx --env-file=.env ./src/db/reset.ts"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "express": "^5.2.1",
     "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.3",
+    "eslint": "^10.0.0",
+    "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

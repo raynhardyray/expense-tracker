@@ -4,5 +4,7 @@
         "packages/*",
         "apps/*",
         "apps/backend/*"
-    ]
+    ],
+    "type": "module"
+
 }

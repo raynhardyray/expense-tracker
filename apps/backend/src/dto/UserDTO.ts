@@ -1,4 +1,6 @@
-export const toUserResponseDTO = (user) => {
+import type { UserRecord } from "@shared/types/user.ts";
+
+export const toUserResponseDTO = (user: UserRecord) => {
     return {
         id: user.id,
         User: user.user_name,

@@ -1,7 +1,7 @@
 import express from 'express';
-import {db} from '#db/database.js';
-import userRoutes from '#routes/UserRoutes.js';
-import { errorHandler } from '#middleware/errorHandler.js';
+import userRoutes from '@routes/UserRoutes.ts';
+import { errorHandler } from '@middleware/errorHandler.ts';
+import { databaseInit } from '@db/database.ts';
 
 const app = express();
 const PORT = process.env.port || 3000;
@@ -13,7 +13,7 @@ app.use(errorHandler);
 
 const startServer = async () => {
     try {
-        await db.init();
+        await databaseInit();
 
         app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT}`);
