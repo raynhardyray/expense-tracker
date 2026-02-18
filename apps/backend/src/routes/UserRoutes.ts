@@ -7,6 +7,6 @@ router.get('/', userController.getAllusers);
 router.get('/:id', userController.getUserById);
 router.post('/register', userController.registerUser);
 router.delete('/:id', userController.deleteUser);
-//TODO : update user
+router.patch('/:id', userController.updateUserPassword);
 
 export default router;

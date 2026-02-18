@@ -29,6 +29,18 @@ class UserRepository extends BaseRepository<UserRaw> {
     async removeUser(userId: number): Promise<UserRaw | undefined> {
         return this.delete(userId);
     };
+
+    async updatePassword(user: User): Promise<UserRaw | undefined> {
+        const sql = `
+            UPDATE users
+            SET password = $1
+            WHERE id = $2
+            RETURNING *`;
+        
+        const res = await this.query(sql, [user.password, user.id]);
+
+        return res.rows[0];
+    };
 };
 
 export const userRepo = new UserRepository();

@@ -4,7 +4,7 @@ import { ErrorCode } from "@shared/constants/errors.ts";
 import { userRepo } from "@repositories/UserRepository.ts";
 import { hashPassword } from "@utils/PasswordHashing.ts";
 import  { toUserModel } from "@models/user.ts";
-import type { User } from "@models/user.ts";
+import type { User, UserRaw } from "@models/user.ts";
 
 export const userService = {
     async getAllUsers() {
@@ -47,5 +47,26 @@ export const userService = {
             message: 'User Deleted',
              ...user
         };
+    },
+
+    async updatePassword(user: UserRaw) {
+        const hashedPass = await hashPassword(user.password);
+
+        const newPass = await userRepo.updatePassword(toUserModel({
+            ...user, 
+            password: hashedPass
+        }));
+
+        if (!newPass) {
+            throw new AppError('Password error', ErrorCode.BAD_REQUEST);
+        };
+
+        return toUserDTO(toUserModel(newPass!));
+    },
+
+    async findUserById(userId: number): Promise<UserRaw> {
+        const user = await userRepo.findById(userId);
+
+        return user!;
     }
 };

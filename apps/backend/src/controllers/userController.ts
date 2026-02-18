@@ -24,7 +24,17 @@ class UserController {
         res.status(201).json(newUser);
     });
 
-    // TODO: update user
+    updateUserPassword = asyncHandler(async (req: Request, res: Response) => {
+        const user = await userService.findUserById(Number(req.params.id));
+        const { password } = req.body;
+
+        const userWithPass = await userService.updatePassword({
+            ...user,
+            password: password
+        });
+
+        res.status(200).json(userWithPass);
+    });
 
     deleteUser = asyncHandler(async (req: Request, res: Response) => {
         const user = await userService.deleteUser(Number(req.params.id));
