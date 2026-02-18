@@ -2,7 +2,7 @@ import { Pool, Client } from 'pg';
 import { tablesCheck } from '@db/schema.ts';
 import { seedsCheck } from '@db/seeds.ts';
 
-const dbConfig = {
+export const dbConfig = {
     user: process.env.DB_USER,
     password: String(process.env.DB_PASS),
     host: process.env.DB_HOST,
@@ -27,7 +27,7 @@ const databaseCheck = async () => {
             await client.query(`CREATE DATABASE ${process.env.DB_NAME}`);
             console.log(`Database ${process.env.DB_NAME} created.`);
         } else {
-            console.log('Database already exists.');
+            console.log('Database exists. Skipping...');
         };
     } catch {
 
