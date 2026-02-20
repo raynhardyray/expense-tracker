@@ -17,7 +17,7 @@ const runSeeds = async (pool: Pool) => {
     console.log('Running seeds...');
 
     for (const user of userSeeds) {
-        const hashedPass = hashPassword(user.password);
+        const hashedPass = await hashPassword(user.password);
 
         const userRes = await pool.query(
             `INSERT INTO public.users (user_name, password)

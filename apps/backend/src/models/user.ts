@@ -12,6 +12,13 @@ export interface User {
     createdAt?: string | Date;
 };
 
+export interface UserDTO {
+    id?: number;
+    userName?: string;
+    createdAt?: string | Date;
+};
+
+
 export const toUserModel = (user: UserRaw): User => {
     return {
         id: user.id,
@@ -21,10 +28,10 @@ export const toUserModel = (user: UserRaw): User => {
     };
 };
 
-export const toUserDTO = (user: User) => {
+export const toUserDTO = (user: User): UserDTO => {
     return {
-        id: user.id,
-        userName: user.userName,
-        createdAt: user.createdAt
+        id: user.id!,
+        userName: user.userName!,
+        createdAt: user.createdAt!
     };
 };

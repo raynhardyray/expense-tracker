@@ -10,7 +10,20 @@ class UserController {
 
     getUserById = asyncHandler(async (req: Request, res: Response) => {
         const user = await userService.getUser(Number(req.params.id));
-        res.json(user);
+        console.log(user);
+
+        res.status(200).json(user);
+    });
+
+    loginUser = asyncHandler(async (req: Request, res: Response) => {
+        const { username, password } = req.body;
+
+        const loggedInUser = await userService.loginUser({
+            userName: username,
+            password: password
+        });
+
+        res.status(200).json(loggedInUser);
     });
 
     registerUser = asyncHandler(async (req: Request, res: Response) => {

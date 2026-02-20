@@ -1,25 +1,30 @@
+import jwt from 'jsonwebtoken';
 import  { toUserDTO } from "@models/user.ts";
 import { AppError } from "@utils/AppError.ts";
 import { ErrorCode } from "@shared/constants/errors.ts";
 import { userRepo } from "@repositories/UserRepository.ts";
-import { hashPassword } from "@utils/PasswordHashing.ts";
+import { hashPassword, passwordCheck } from "@utils/PasswordHashing.ts";
 import  { toUserModel } from "@models/user.ts";
-import type { User, UserRaw } from "@models/user.ts";
+import type { User, UserDTO, UserRaw } from "@models/user.ts";
 
 export const userService = {
-    async getAllUsers() {
+    async getAllUsers(): Promise<UserDTO[]> {
         const users = await userRepo.findAll();
 
-        return users.map(users => toUserDTO(toUserModel(users)));
+        const userDTO = users.map(users => toUserDTO(toUserModel(users)));
+
+        return userDTO;
     },
 
-    async getUser(userId: number) {
+    async getUser(userId: number): Promise<UserDTO> {
         const user = await userRepo.findById(userId);
 
-        return toUserDTO(toUserModel(user!));
+        const userDTO = toUserDTO(toUserModel(user!))
+
+        return userDTO;
     },
 
-    async createUser (user: User) {
+    async createUser (user: User): Promise<UserDTO> {
         if (!user.userName?.trim()) {
             throw new AppError('Username is required', ErrorCode.BAD_REQUEST);
         };
@@ -36,7 +41,9 @@ export const userService = {
             throw new AppError('User creation failed', ErrorCode.BAD_REQUEST);
         };
 
-        return toUserDTO(toUserModel(createUser!));
+        const userDTO = toUserDTO(toUserModel(createUser!));
+
+        return userDTO;
     },
 
     async deleteUser(userId: number) {
@@ -49,7 +56,7 @@ export const userService = {
         };
     },
 
-    async updatePassword(user: UserRaw) {
+    async updatePassword(user: UserRaw): Promise<UserDTO> {
         const hashedPass = await hashPassword(user.password);
 
         const newPass = await userRepo.updatePassword(toUserModel({
@@ -61,12 +68,32 @@ export const userService = {
             throw new AppError('Password error', ErrorCode.BAD_REQUEST);
         };
 
-        return toUserDTO(toUserModel(newPass!));
+        const userDTO = toUserDTO(toUserModel(newPass!));
+
+        return userDTO;
     },
 
     async findUserById(userId: number): Promise<UserRaw> {
         const user = await userRepo.findById(userId);
 
         return user!;
-    }
+    },
+
+    async loginUser(user: User) {
+        const username = await userRepo.findByUsername(user.userName);
+
+        if (!username) {
+            throw new AppError('Username doesnt exist', ErrorCode.NOT_FOUND);
+        };
+
+        await passwordCheck(user.password, username!.password);
+
+        const token = jwt.sign({
+            id: username,
+            username: username!.user_name}, 
+            process.env.JWT_SECRET!, 
+            { expiresIn: '1h'})
+
+        return token;
+    },
 };
