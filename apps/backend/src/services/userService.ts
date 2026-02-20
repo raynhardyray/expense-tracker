@@ -89,7 +89,7 @@ export const userService = {
         await passwordCheck(user.password, username!.password);
 
         const token = jwt.sign({
-            id: username,
+            id: username.id,
             username: username!.user_name}, 
             process.env.JWT_SECRET!, 
             { expiresIn: '1h'})
