@@ -27,10 +27,10 @@ class UserController {
     });
 
     registerUser = asyncHandler(async (req: Request, res: Response) => {
-        const { user_name, password } = req.body;
+        const { username, password } = req.body;
 
         const newUser = await userService.createUser({
-            userName: user_name,
+            userName: username,
             password: password,
         });
 
